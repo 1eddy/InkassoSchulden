@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Inkasso Schuldenbetrag Rechner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inkasso Schuldenbetrag Rechner</h1>
+        <form id="debtForm">
+            <label for="initialDebt">Schuldenbetrag (CHF):</label>
+            <input type="number" id="initialDebt" required>
+            
+            <label for="months">Monate zur Zahlung:</label>
+            <input type="number" id="months" required>
+            
+            <label for="monthlyInterest">Monatlicher Verzugszins (%) bei nicht Zahlung:</label>
+            <input type="number" id="monthlyInterest" value="0.42" disabled>
+            
+            <button type="button" onclick="calculateDebt()">Berechnen</button>
+        </form>
+        
+        <div class="result" id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
