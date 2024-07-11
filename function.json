@@ -1,0 +1,27 @@
+{
+    "bindings": [
+        {
+            "authLevel": "function",
+            "type": "httpTrigger",
+            "direction": "in",
+            "name": "req",
+            "methods": [ "post" ],
+            "route": "saveDebt"
+        },
+        {
+            "type": "http",
+            "direction": "out",
+            "name": "res"
+        },
+        {
+            "type": "cosmosDB",
+            "name": "outputDocument",
+            "databaseName": "InkassoDB",
+            "collectionName": "Debts",
+            "createIfNotExists": true,
+            "partitionKey": "/id",
+            "connectionStringSetting": "CosmosDBConnectionString",
+            "direction": "out"
+        }
+    ]
+}
