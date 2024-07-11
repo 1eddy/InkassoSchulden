@@ -1,0 +1,9 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "node",
+        "CosmosDBEndpoint": "https://webappinkassocosmo.documents.azure.com:443/",
+        "CosmosDBKey": "AccountEndpoint=https://webappinkassocosmo.documents.azure.com:443/;AccountKey=a4iGgK2NaJ2KAuIbcHDCOjDTSzIO7SuWJtkKbgNUYKylVfa4TCnFPX0rgGmuZdOIF6oQHfmLN4wrACDbgJupPQ==;"
+    }
+}
