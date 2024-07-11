@@ -1,25 +1,50 @@
 const { CosmosClient } = require("@azure/cosmos");
 
+const endpoint = process.env.CosmosDBConnectionString;
+const key = process.env.CosmosDBKey;
+
+const client = new CosmosClient({ endpoint, key });
+const databaseId = "InkassoDatabase";
+const containerId = "SchuldenContainer";
+
 module.exports = async function (context, req) {
-    const debtData = req.body;
+    const { initialDebt, months, monthlyInterest } = req.body;
 
-    const endpoint = process.env.CosmosDBEndpoint;
-    const key = process.env.CosmosDBKey;
-    const client = new CosmosClient({ endpoint, key });
+    if (!initialDebt || !months || !monthlyInterest) {
+        context.res = {
+            status: 400,
+            body: "Please provide all required fields: initialDebt, months, monthlyInterest."
+        };
+        return;
+    }
 
-    const database = client.database("InkassoDB");
-    const container = database.container("Debts");
+    let totalDebt = parseFloat(initialDebt);
+    for (let i = 0; i < parseInt(months); i++) {
+        totalDebt += totalDebt * (parseFloat(monthlyInterest) / 100);
+    }
+
+    const item = {
+        initialDebt: initialDebt,
+        months: months,
+        monthlyInterest: monthlyInterest,
+        totalDebt: totalDebt.toFixed(2),
+        timestamp: new Date().toISOString()
+    };
 
     try {
-        const { resource: createdItem } = await container.items.create(debtData);
+        const { database } = await client.databases.createIfNotExists({ id: databaseId });
+        const { container } = await database.containers.createIfNotExists({ id: containerId });
+
+        const { resource } = await container.items.create(item);
+
         context.res = {
             status: 200,
-            body: createdItem
+            body: `Schuldenbetrag erfolgreich gespeichert: ${resource.id}`
         };
     } catch (error) {
         context.res = {
             status: 500,
-            body: error.message
+            body: `Fehler beim Speichern des Schuldenbetrags: ${error.message}`
         };
     }
 };
